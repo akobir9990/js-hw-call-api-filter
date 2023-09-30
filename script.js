@@ -227,3 +227,34 @@ all.addEventListener("click", () => {
       content.innerHTML = allDate;
     });
 });
+
+input.addEventListener("keyup", () => {
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      let inpVal = input.value.toLowerCase();
+      let filteredItems = data
+        .map((item) => {
+          if (inpVal == item.fields.company) {
+            return `
+            <div
+            id="product"
+            style="
+              background-image: url(${item.fields.image[0].url});
+              background-size: cover;
+              background-position: center;
+            "
+          >
+            <div class="info">
+              <p>Name: ${item.fields.name}</p>
+              <p>Company: ${item.fields.company}</p>
+              <p>Price: ${item.fields.price}</p>
+            </div>
+          </div>
+            `;
+          }
+        })
+        .join("");
+      content.innerHTML = filteredItems;
+    });
+});
